@@ -1,0 +1,232 @@
+[
+  {
+    "source_url": "https://med.stanford.edu/news/all-news/2025/08/generative-ai.html",
+    "source_type": "blog",
+    "author": "Office of Communications",
+    "published_date": "2025-08-25",
+    "language": "en",
+    "region": "United States",
+    "topic_tags": [
+      "pneumonia",
+      "training",
+      "x-ray",
+      "Stanford",
+      "radiologist",
+      "accuracy",
+      "chest x-ray",
+      "inference"
+    ],
+    "trust_score": 0.66,
+    "content_chunks": [
+      "Back when I studied AI in the 1980s, it might take four years and a PhD, and we would develop a system that could work on three or four patients. Today with the right training data, we can build a system in a week that has better accuracy than anything we built back then. The fact that radiology has been a digital specialty now for almost 20 years is one of the reasons I think radiology is leading the way in AI.",
+      "One of the biggest challenges that we face in radiological AI research is we usually don’t have large datasets to train our AI models on. To be able to train AI models, we always need to curate large and high-quality datasets. The high quality is sometimes easy, but the large part can be a little bit tricky. Maybe I need to aggregate a million or so chest X-rays, but what if I only had 100,000 images? If we have small data sets, how can we still build high-quality AI models?",
+      "We had students who saw what was happening outside of medicine with models that can produce images based on a text prompt. Show me a kangaroo and Ray-Ban sunglasses in the style of Rembrandt, and it’ll create a painting for you. I wonder what would happen if we asked one of these models what a chest X-ray looks like. What they got back was really kind of a cartoon of a chest X-ray. It didn’t look a lot like a chest X-ray, and these students retrained that model.",
+      "As soon as I saw that tool, I was blown away. Can we convert this toy into a useful resource for researchers and instead of training AI models on real data; could we create some of these synthetic images that resemble what real images might look like? And that’s how the RoentGen model came to be. Let’s look at how this model actually works. I’ll start with this image of a dog. Then I’ll add a little bit of normal noise to this, and this noise follows a particular pattern that we’ve pre-computed and all we’re doing is we’re training a simple model to do denoising to go back to the original image. Then you can take this noisy image and then add a little bit more noise to that, and then we’ll actually use the same denoising model to de-noise this very noisy image, to try to go back to the original clean image. We’ll keep progressively adding more and more noise. We’ll get to an image that’s noise only. We can start off with some random noise distribution and we can run our denoising model, which will go step by step back, but instead of using dogs, we’ll actually be using chest X-rays as we did. We also use the radiology report information to actually guide how this denoising process would work.",
+      "The purpose of RoentGen would be to produce additional data that would be used to train an AI software tool to provide additional accuracy for radiologists who are working in the clinic, helping them identify disease sooner and identify disease that they might miss, and then extend it to other areas like CTs and MRIs and ultrasounds.",
+      "We can use RoentGen to be able to create some synthetic images of what would a patient look like if they had pneumonia. Another research group might be interested in trying to identify cardiomegaly, which is an enlargement of the heart. We just want to be the tide that can lift all boats. We really want to be able to create these high-quality datasets that will cater to all the downstream tasks.",
+      "Hey guys. One thing I wanted to share today about RoentGen v2 is this interactive inference demo where we can take a closer look at how the model responds to various prompts. One of the cool updates for RoentGen v2 versus the v1 is we introduced this demographic information in the prompt where we can condition on age, race and sex of the patient. And so for example, here we show a male normal chest X-ray and it should be the case that if I change it to female, we should visually see a change and the chest X-ray corresponding to a female.",
+      "Stanford is really trying to build advanced AI algorithms to work with health care data. So that’s why we’re really excited to be able to do this research, to understand what the capabilities are. I started realizing all the different applications one could have. How can we analyze what’s in these images? Can we predict future diseases a patient might have? Can we help the radiologist in writing the radiologist report? It does seem like that is the imminent future, at least for large-scale imaging models. Combine the potential of these models with what we do in radiology and try to have a win-win situation.",
+      "And at the end of the day, we don’t just want our models to be used at Stanford. We want our models to help patients all across the world. So if we can open source some of the tools that we’re building, hopefully the whole world can benefit, that can help translate better health care solutions."
+    ]
+  },
+  {
+    "source_url": "https://towardsdatascience.com/diagnosing-pneumonia-from-x-ray-images-using-convolutional-neural-network-fe9975cab808/",
+    "source_type": "blog",
+    "author": "Tony Tsoi",
+    "published_date": "2022-04-04",
+    "language": "en",
+    "region": "Unknown",
+    "topic_tags": [
+      "pneumonia",
+      "transfer learning",
+      "data augmentation",
+      "image classification",
+      "neural network",
+      "convolutional neural network",
+      "diagnosis",
+      "training"
+    ],
+    "trust_score": 0.475,
+    "content_chunks": [
+      "Deep learning, also known as neural network, has gained traction in recent years, and is now being widely used across multiple fields, with one of its popular applications being image classification which uses the convolutional neural network (\"CNN\"). The potential of image classification is also being explored in the field of medical diagnosis. In this article, I discuss how we can build a convolutional neural network that would help us diagnose pneumonia from chest x-ray images.",
+      "First, a neural network can be described as a series of algorithms that has an objective to recognise relationships or patterns in the data. A simple neural network consists of different types of layers, namely the input layer, the output layer and the hidden layer. Each layer contains a number of neurons, and each neuron is made up of algorithms that take the outputs from the previous layer as inputs, generate further outputs and pass them onto the next layer.",
+      "The below diagram shows an example architecture of a simple neural network. In this example, there are 4 variables in the input layer represented by the green circles. They are entered into each of the 4 neurons represented by the blue circles in the 1st hidden layer. These neurons would then generate further outputs to be passed onto the neurons in the 2nd hidden layer. Lastly, the outputs of the 2nd hidden layer would go into the neuron in the output layer represented by the orange circle which would generate the final output.",
+      "For example in the illustration below, each value in the 3×3 filter (or kernel) is multiplied to a 3×3 sub-section of the 4×4 image, and the results from the multiplications are summed within each sub-section. The filter is then shifted across the image to the next sub-section and the calculation is repeated until the whole of output array is filled.",
+      "In this article, I use the dataset from here (the dataset is CC BY 4.0) which includes 5,856 chest x-ray images labelled either \"Pneumonia\" or \"Normal\". These chest x-ray images were selected from retrospective cohorts of paediatric patients of one to five years old from Guangzhou Women and Children’s Medical Centre. These x-ray images are split into training, validation and test sets. There are 5,216 images in the training set, 624 images in the validation set and 16 images in the test set. I save the directories of the folders and name them accordingly in the code below.",
+      "Below I plot 10 of the x-ray images from the training set, with 5 of them being \"Normal\" and 5 of them being \"Pneumonia\". In an ordinary chest x-ray image examination, the radiologist would look for white spots in the lungs to determine if a patient suffers from pneumonia. However, as non-medical professionals, we might not necessarily have the expertise or experience to tell the difference between a \"Pneumonia\" image and a \"Normal\" image.",
+      "I use the image pre-processing library in Tensorflow to extract and generate batches of images from the folders. As mentioned above, images are expressed in RGB values ranging from 0 to 255. In the convolutional neural network, each image should contribute only an equal amount of information. However, a greater weight might be placed to an image with high pixel values than an image with low pixel values. Therefore, I apply a rescaling factor of 1/255 to the images to normalise them to have a value between 0 and 1.",
+      "To reduce the impact that the model might overfit the training set and does not generalise well to images it has never seen, I apply data augmentation to generate more images that look slightly different than the originals to be included in the dataset. The additional images are randomly zoomed by a factor of 0.2 and their heights and widths are randomly shifted by a fraction of 0.1 compared to the total.",
+      "I apply data augmentation to both the training and validation sets to assess how well the model does across a similar distribution of images with similar data augmentations. Nevertheless, I do not apply data augmentation but only rescaling and standardisation to the test set, to assess how well the model does on images that the model would more likely encounter under normal circumstances where the image is less likely to be distorted.",
+      "The class mode is set to binary as the category is either \"Pneumonia\" or \"Normal\". I shrink the images to a size of (160, 160) to reduce the number of inputs. The batch size is set to be 16 which means the internal parameters in the model would be updated every 16 samples it has run through. It can be thought of as that the model would take a small step towards the optimum every 16 samples it has seen.",
+      "I then train the model with 20 epochs (or cycles), with the steps per epoch as the number of images in the training set divided by the batch size, which would allow the whole of the training set to be trained in each epoch. I set out the model summary below.",
+      "The accuracy in the training set increases to above 95%. We might be tempted to jump to the conclusion that the model is doing a pretty good job. However, when we look at the accuracy rate in the validation set across epochs, it hovers at around 75% to 90% with no clear trend of increasing as we train the model through more epochs.",
+      "We could also explore the use of transfer learning. Transfer learning is to adopt a pre-trained model that was trained on a very large set of images and re-train the top layers for more specific tasks. This has the potential to outperform our current model as the pre-trained model has already learnt about the basic features from the very large set of images, and that would ideally help the model to deal with more complex tasks.",
+      "Convolutional neural network as a branch of neural network is often used in image related tasks and can be applied in different fields such as medical diagnosis. Nevertheless, deep learning is data hungry that in order to train a well-performed model, a large amount of data is required which could be an obstacle in the medical field."
+    ]
+  },
+  {
+    "source_url": "https://augmentedstartups.medium.com/pneumonia-detection-from-chest-x-rays-7868edaa57ad",
+    "source_type": "blog",
+    "author": "Ritesh Kanjee",
+    "published_date": "2024-06-01",
+    "language": "en",
+    "region": "Unknown",
+    "topic_tags": [
+      "pneumonia",
+      "diagnosis",
+      "feature extraction",
+      "x-ray",
+      "machine learning",
+      "model",
+      "healthcare",
+      "provide"
+    ],
+    "trust_score": 0.385,
+    "content_chunks": [
+      "Pneumonia remains a significant health challenge, particularly in developing and underdeveloped nations. The disease, caused by bacterial or viral infections, leads to pleural effusion, where fluids fill the lungs, causing severe respiratory difficulties. Early diagnosis is crucial for effective treatment and improving survival rates. However, the examination of chest X-rays, the most common diagnostic method, is fraught with challenges and subjective variability.",
+      "Traditional machine learning algorithms have been employed for pneumonia detection, but they require extensive domain expertise for feature extraction. This process is not only time-consuming but also prone to human error. Moreover, the lack of publicly available data has been a significant limitation, hindering the development of robust diagnostic models.",
+      "to provide auxiliary disease information. This integration enhances the model’s diagnostic capabilities by leveraging additional contextual data. The user-friendly Gradio-chat interface allows for seamless X-ray uploads, making the tool accessible to healthcare professionals. We provide full code access, a detailed tutorial, and an explanatory presentation to ensure a thorough understanding of the solution."
+    ]
+  },
+  {
+    "source_url": "https://www.youtube.com/watch?v=QmIM24JDE3A",
+    "source_type": "youtube",
+    "author": "Two Minute Papers",
+    "published_date": "2017-12-13",
+    "language": "en",
+    "region": "Unknown",
+    "topic_tags": [
+      "pneumonia",
+      "clinical",
+      "radiologist",
+      "CheXNet",
+      "deep learning",
+      "https",
+      "com",
+      "https www"
+    ],
+    "trust_score": 0.495,
+    "content_chunks": [
+      "The paper \"CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning\" is available here: https://stanfordmlgroup.github.io/projects/chexnet/ Interesting commentary on the article, check this one out too! https://lukeoakdenrayner.wordpress.com/2017/11/18/quick-thoughts-on-chestxray14-performance-claims-and-clinical-tasks/ Our Patreon page with the details: https://www.patreon.com/TwoMinutePapers One-time payments: PayPal: https://www.paypal.me/TwoMinutePapers Bitcoin: 13hhmJnLEzwXgmgJN7RB6bWVdT7WkrFAHh Ethereum: 0x002BB163DfE89B7aD0712846F1a1E53ba6136b5A We would like to thank our generous Patreon supporters who make Two Minute Papers possible: Andrew Melnychuk, Brian Gilman, Christian Ahlin, Christoph Jadanowski, Dave Rushton-Smith, Dennis Abts, Eric Haddad, Esa Turkulainen, Evan Breznyik, Kaben Gabriel Nanlohy, Malek Cellier, Marten Rauschenberg, Michael Albrecht, Michael Jensen, Michael Orenstein, Raul Araújo da Silva, Robin Graham, Steef, Steve Messina, Sunil Kim, Torsten Reil. https://www.patreon.com/TwoMinutePapers Music: Antarctica by Audionautix is licensed under a Creative Commons Attribution license (https://creativecommons.org/licenses/by/4.0/) Artist: http://audionautix.com/ Thumbnail background image credit: https://flic.kr/p/bCaBTq Splash screen/thumbnail design: Felícia Fehér - http://felicia.hu Károly Zsolnai-Fehér's links: Facebook: https://www.facebook.com/TwoMinutePapers/ Twitter: https://twitter.com/karoly_zsolnai Web: https://cg.tuwien.ac.at/~zsolnai/"
+    ],
+    "_meta": {
+      "video_id": "QmIM24JDE3A",
+      "title": "AI Beats Radiologists at Pneumonia Detection | Two Minute Papers #214",
+      "channel_name": "Two Minute Papers",
+      "subscriber_count": 1800000,
+      "content_source": "description_fallback",
+      "description": "The paper \"CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning\" is available here:\nhttps://stanfordmlgroup.github.io/projects/chexnet/\n\nInteresting commentary on the article, check this one out too!\nhttps://lukeoakdenrayner.wordpress.com/2017/11/18/quick-thoughts-on-chestxray14-performance-claims-and-clinical-tasks/\n\nOur Patreon page with the details:\nhttps://www.patreon.com/TwoMinutePapers\n\nOne-time payments:\nPayPal: https://www.paypal.me/TwoMinutePapers\nBitcoin: 1"
+    }
+  },
+  {
+    "source_url": "https://www.youtube.com/watch?v=2PoTMOqLTPc",
+    "source_type": "youtube",
+    "author": "GAURAV KUMAR JAIN",
+    "published_date": "2025-05-28",
+    "language": "en",
+    "region": "Unknown",
+    "topic_tags": [
+      "pneumonia",
+      "neural network",
+      "convolutional neural network",
+      "diagnosis",
+      "training",
+      "x-ray",
+      "machine learning",
+      "chest x-ray"
+    ],
+    "trust_score": 0.3425,
+    "content_chunks": [
+      "In this video, we showcase a full-stack deep learning application built with Flask, TensorFlow, and HTML/CSS/JavaScript, capable of detecting pneumonia from chest X-ray images in real time.",
+      "This end-to-end system includes: ✅ Preprocessing of chest X-ray datasets ✅ Training a Convolutional Neural Network (CNN) model ✅ Saving the trained model (pneumonia_cnn.h5) ✅ Building a web-based interface for X-ray image uploads and predictions ✅ Real-time predictions with success messages and visual feedback ✅ Ready-to-deploy project for healthcare institutions This project is a step toward empowering healthcare providers with AI tools for early diagnosis and improved patient outcomes. 🔐 Compliant with real-world data handling best practices. 🧠 Backed by machine learning for intelligent health risk prediction. 💡 Suitable for hackathons, academic research, or production prototypes. github link: https://github.com/jaingaurav126/x-ray-pneumonia-detector.git Dataset link: https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia?resource=download 🏷️ Hashtags: #PneumoniaDetection #AIinHealthcare #DeepLearning #XrayAnalysis #FlaskApp #TensorFl"
+    ],
+    "_meta": {
+      "video_id": "2PoTMOqLTPc",
+      "title": "AI-Powered Pneumonia Detection Using Chest X-rays | Deep Learning Healthcare Project Demo",
+      "channel_name": "GAURAV KUMAR JAIN",
+      "subscriber_count": 4590,
+      "content_source": "description_fallback",
+      "description": "🚀 Welcome to the demonstration of our AI-powered Pneumonia Detection System!\n\nIn this video, we showcase a full-stack deep learning application built with Flask, TensorFlow, and HTML/CSS/JavaScript, capable of detecting pneumonia from chest X-ray images in real time. This end-to-end system includes:\n\n✅ Preprocessing of chest X-ray datasets\n✅ Training a Convolutional Neural Network (CNN) model\n✅ Saving the trained model (pneumonia_cnn.h5)\n✅ Building a web-based interface for X-ray image uploads a"
+    }
+  },
+  {
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/29474911/",
+    "source_type": "pubmed",
+    "author": [
+      "Kermany, Daniel S",
+      "Goldbaum, Michael",
+      "Cai, Wenjia",
+      "Valentim, Carolina C S",
+      "Liang, Huiying",
+      "Baxter, Sally L",
+      "McKeown, Alex",
+      "Yang, Ge",
+      "Wu, Xiaokang",
+      "Yan, Fangbing",
+      "Dong, Justin",
+      "Prasadha, Made K",
+      "Pei, Jacqueline",
+      "Ting, Magdalene Y L",
+      "Zhu, Jie",
+      "Li, Christina",
+      "Hewett, Sierra",
+      "Dong, Jason",
+      "Ziyar, Ian",
+      "Shi, Alexander",
+      "Zhang, Runze",
+      "Zheng, Lianghong",
+      "Hou, Rui",
+      "Shi, William",
+      "Fu, Xin",
+      "Duan, Yaou",
+      "Huu, Viet A N",
+      "Wen, Cindy",
+      "Zhang, Edward D",
+      "Zhang, Charlotte L",
+      "Li, Oulan",
+      "Wang, Xiaobo",
+      "Singer, Michael A",
+      "Sun, Xiaodong",
+      "Xu, Jie",
+      "Tafreshi, Ali",
+      "Lewis, M Anthony",
+      "Xia, Huimin",
+      "Zhang, Kang"
+    ],
+    "published_date": "2018",
+    "language": "en",
+    "region": "United States",
+    "topic_tags": [
+      "pneumonia",
+      "transfer learning",
+      "clinical",
+      "screening",
+      "neural network",
+      "diagnosis",
+      "x-ray",
+      "chest x-ray"
+    ],
+    "trust_score": 0.76,
+    "content_chunks": [
+      "The implementation of clinical-decision support algorithms for medical imaging faces challenges with reliability and interpretability.",
+      "Here, we establish a diagnostic tool based on a deep-learning framework for the screening of patients with common treatable blinding retinal diseases.",
+      "Our framework utilizes transfer learning, which trains a neural network with a fraction of the data of conventional approaches.",
+      "Applying this approach to a dataset of optical coherence tomography images, we demonstrate performance comparable to that of human experts in classifying age-related macular degeneration and diabetic macular edema.",
+      "We also provide a more transparent and interpretable diagnosis by highlighting the regions recognized by the neural network.",
+      "We further demonstrate the general applicability of our AI system for diagnosis of pediatric pneumonia using chest X-ray images.",
+      "This tool may ultimately aid in expediting the diagnosis and referral of these treatable conditions, thereby facilitating earlier treatment, resulting in improved clinical outcomes."
+    ],
+    "_meta": {
+      "pmid": "29474911",
+      "title": "Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning.",
+      "journal": "Cell",
+      "publication_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "author_count": 39,
+      "abstract_length": 148,
+      "citation_count": 0
+    }
+  }
+]
