@@ -1,0 +1,21 @@
+# Web Scraping
+requests==2.31.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+newspaper3k==0.2.8
+
+# YouTube
+youtube-transcript-api==0.6.2
+google-api-python-client==2.118.0
+
+# PubMed
+biopython==1.83
+
+# NLP / Language Detection
+langdetect==1.0.9
+nltk==3.8.1
+scikit-learn==1.4.0
+
+# Utilities 
+python-dateutil==2.9.0
+tqdm==4.66.2

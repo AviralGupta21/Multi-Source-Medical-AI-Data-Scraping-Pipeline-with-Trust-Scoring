@@ -1,0 +1,38 @@
+{
+  "blogs": [
+    {
+      "url": "https://med.stanford.edu/news/all-news/2025/08/generative-ai.html",
+      "type": "stanford",
+      "label": "Stanford Medicine — Using Generative AI to Create Synthetic Data"
+    },
+    {
+      "url": "https://towardsdatascience.com/diagnosing-pneumonia-from-x-ray-images-using-convolutional-neural-network-fe9975cab808/",
+      "type": "tds",
+      "label": "TDS — Diagnosing Pneumonia from X-Ray Images Using Convolutional Neural Network"
+    },
+    {
+      "url": "https://augmentedstartups.medium.com/pneumonia-detection-from-chest-x-rays-7868edaa57ad",
+      "type": "medium",
+      "label": "Medium — Pneumonia Detection from Chest X-Rays"
+    }
+  ],
+  "youtube": [
+    {
+      "video_id": "QmIM24JDE3A",
+      "url": "https://www.youtube.com/watch?v=QmIM24JDE3A",
+      "label": "Two Minute Papers — AI Beats Radiologists"
+    },
+    {
+      "video_id": "2PoTMOqLTPc",
+      "url": "https://www.youtube.com/watch?v=2PoTMOqLTPc",
+      "label": "Gaurav Kumar Jain — Pneumonia Detection Demo"
+    }
+  ],
+  "pubmed": [
+    {
+      "pmid": "29474911",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29474911/",
+      "label": "Kermany et al. 2018 — Cell"
+    }
+  ]
+}
